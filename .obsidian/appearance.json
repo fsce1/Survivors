@@ -1,3 +1,13 @@
 {
-  "accentColor": ""
+  "accentColor": "#000000",
+  "theme": "moonstone",
+  "interfaceFontFamily": "",
+  "baseFontSize": 15,
+  "nativeMenus": false,
+  "translucency": true,
+  "showViewHeader": true,
+  "cssTheme": "Obsidian Nord",
+  "enabledCssSnippets": [
+    "S - Checkboxes"
+  ]
 }
