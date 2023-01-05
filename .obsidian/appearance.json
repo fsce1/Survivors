@@ -4,7 +4,7 @@
   "interfaceFontFamily": "",
   "baseFontSize": 15,
   "nativeMenus": false,
-  "translucency": true,
+  "translucency": false,
   "showViewHeader": true,
   "cssTheme": "Obsidian Nord",
   "enabledCssSnippets": [
