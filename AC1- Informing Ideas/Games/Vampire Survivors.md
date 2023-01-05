@@ -1,0 +1,1 @@
+![Vampire1 | 400](https://cdn.vox-cdn.com/thumbor/VUfHTW2et7dCKOBK3dKQd3tEn2c=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/23232679/Vampire_Survivors_3.jpg)
