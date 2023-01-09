@@ -5,8 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //public float moveMult = 100;
-    public float frictionAmount = 0.6f;
-    public float maxSpeed = 10;
+
+    public int health = 100;
+    public float frictionAmount = 0.1f;
+    public float maxSpeed = 1;
+    public Vector2 curVelDebug = Vector2.zero;
     Rigidbody2D rb;
     //Vector2 rawInput; // x = horizontal y = vertical
 
@@ -25,11 +28,15 @@ public class PlayerController : MonoBehaviour
 
     }
     public void RampUp(Vector2 move){
-        Vector2 rbVel = rb.velocity; //badly done
-        Vector2 transPos = new Vector2(transform.position.x, transform.position.y);
-        Vector2.SmoothDamp(transform.position, transPos + move, ref rbVel, frictionAmount, maxSpeed);
-        rb.velocity = rbVel; //badly done
-
+        Vector2 rbVel = rb.velocity;
+        Vector2 tPlayer = new Vector2(transform.position.x, transform.position.y);
+        Vector2.SmoothDamp(tPlayer, tPlayer + move, ref rbVel, frictionAmount, maxSpeed);
+        curVelDebug = rbVel;
+        rb.velocity = rbVel;
+    }
+    public void TakeDamage(int dmg, GameObject enemy)
+    {
+        health -= dmg;
     }
 
 }
