@@ -5,7 +5,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
    public enum WeaponType
-    {
+    {   None,
         Pistol,
         Shotgun
     }

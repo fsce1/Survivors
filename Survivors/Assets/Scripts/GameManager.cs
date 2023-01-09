@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-
 public class GameManager : MonoBehaviour
 {
     #region SINGLETON
@@ -14,68 +12,68 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public bool roundStarted = false;
     public PlayerController player;
     public GameObject enemyPrefab;
     public Vector2 enemyGroupSize = new Vector2(5, 20);
     public Vector2 timeBetweenSpawns = new Vector2(0, 5);
     public int roundTimeLimit = 30 *60; // 30 minutes
     public List<GameObject> enemies;
+    public Transform enemyParent;
 
     [Header("UI Elements")]
+    public Button startRound;
     public Text roundTimer;
     public Text enemyKills;
     public Text enemyTimer;
     public Text curWeapon;
-    public Slider Health;
+    public Text Health;
 
-    //private void Start()
-    //{
-    //    //UpdateEnemyList();
-    //}
-    //public void UpdateEnemyList()
-    //{
-    //    //enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-    //}
-    public float GetRandom(Vector2 bounds)
+    private void Start()
     {
-        return Random.Range(bounds.x, bounds.y);
+        startRound.gameObject.SetActive(true);
     }
-
     public void StartRound()
     {
+        if(roundStarted) return;
+
+        startRound.gameObject.SetActive(false);
+
         StartCoroutine(RoundTimer(roundTimeLimit));
-        StartCoroutine(EnemyTimer(GetRandom(timeBetweenSpawns)));
+        OnSpawnTimer();
+
         player.health = player.maxHealth;
+        roundStarted = true;
     }
 
-    public IEnumerator RoundTimer(int maxTime)
+    public IEnumerator RoundTimer(int time)
     {
-        while (maxTime >= 0)
+        while (time >= 0)
         {
-            maxTime -= 1;
-            roundTimer.text = maxTime.ToString();
+            time -= 1;
+            roundTimer.text = CustomMath.SecondsToTimer(time);
             yield return new WaitForSeconds(1);
         }
         OnRoundTimer();
     }
     public void OnRoundTimer()
     {
-
+        //increment difficulty up
     }
-    public IEnumerator EnemyTimer(float time)
+    public IEnumerator EnemyTimer(int time)
     {
-        while (time >= 0){
-            time -= 0.1f;
+        while (time > 0){
+            time -= 1;
             enemyTimer.text = time.ToString();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1);
         }
         OnSpawnTimer();
     }
     void OnSpawnTimer()
     {
         SpawnEnemyGroup();
-        StartCoroutine(EnemyTimer(GetRandom(timeBetweenSpawns)));
+        StartCoroutine(EnemyTimer(CustomMath.GetRandomInt(timeBetweenSpawns)));
     }
     public void SpawnEnemyGroup()
     {
@@ -85,7 +83,7 @@ public class GameManager : MonoBehaviour
         {
             transform.position += new Vector3(Random.Range(-15, 15), Random.Range(-15, 15));
             GameObject g = Instantiate(enemyPrefab, transform);
-            g.transform.SetParent(null);
+            g.transform.SetParent(enemyParent);
             EnemyController e = g.GetComponent<EnemyController>();
             e.type = (EnemyController.enemyType)Random.Range(0, 1 + 1); //must change as enemy types added. +1 is because it generates floats and it will almost never generate 2 exactly, it truncates
             e.Setup();
@@ -94,14 +92,6 @@ public class GameManager : MonoBehaviour
         //UpdateEnemyList();
     }
 
-    //public void Update()
-    //{
-    //    foreach (GameObject e in enemies)
-    //    {
-    //        if
-
-    //    }
-    //}
 
     #region BOID
     //https://swharden.com/csdv/simulations/boids/

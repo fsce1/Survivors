@@ -26,18 +26,20 @@ public class AimManager : MonoBehaviour
         Vector3 vel = Vector3.zero;
         Transform closestEnemy = ClosestEnemy();
         Vector3.SmoothDamp(transform.position, closestEnemy.position, ref vel, targetAcquisition);
-        transform.position += new Vector3(vel.x, vel.y, 1+transform.position.z);
+        transform.position += new Vector3(vel.x, vel.y, 1 + transform.position.z);
 
         //this.transform.position = ClosestEnemy().position;
     }
     Transform ClosestEnemy()
     {
+
         Transform tPlayer = GameManager.GM.player.transform;
-        Transform tClosest = null;
+        if (GameManager.GM.enemies == null) return tPlayer;
+        Transform tClosest = tPlayer;
         float minDist = Mathf.Infinity;
         foreach (GameObject g in GameManager.GM.enemies)
         {
-            if (!GetComponent<Renderer>().isVisible) continue; //this causes slowdown (i think)
+            //if (!GetComponent<Renderer>().isVisible) continue; //this causes slowdown (i think)
             Transform t = g.transform;
             float dist = Vector3.Distance(tPlayer.position, t.position);
 
@@ -47,7 +49,8 @@ public class AimManager : MonoBehaviour
                 minDist = dist;
             }
         }
-        if (minDist == Mathf.Infinity) return tPlayer;
+        if (!tClosest.gameObject.GetComponent<Renderer>().isVisible) return tPlayer;
+        //if (minDist == Mathf.Infinity) return tPlayer;
         return tClosest;
     }
 }

@@ -1,43 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    //public float moveMult = 100;
-
     public int health = 100;
     public int maxHealth = 100;
     public float frictionAmount = 0.1f;
+    public float moveMult = 1;
     public float maxSpeed = 1;
     Rigidbody2D rb;
-    //Vector2 rawInput; // x = horizontal y = vertical
 
     [Header("Inventory")]
     public List<Weapon> weaponInv;
-    public Weapon.WeaponType curWeapon;
+    public int curWeaponIndex = 0;
+    public Weapon curWeapon;
 
+
+    public void UpdateInput()
+    {
+        if (Input.anyKey) GameManager.GM.StartRound();
+        if (Input.GetKeyDown(KeyCode.E)) NextWeapon();
+        if (Input.GetKeyDown(KeyCode.Q)) LastWeapon();
+        if (Input.GetKeyDown(KeyCode.Space)) FireWeapon();
+    }
     public void NextWeapon()
     {
-        curWeapon++;
+        curWeaponIndex++;
+        UpdateWeaponIndex();
     }
     public void LastWeapon()
     {
-        curWeapon--;
+        curWeaponIndex--;
+        UpdateWeaponIndex();
     }
     public void FireWeapon()
     {
-        weaponInv[(int)curWeapon].Fire();
+        curWeapon.Fire();
     }
-    private void OnTriggerEnter2D(Collider2D col)
+
+    public void UpdateWeaponIndex()
     {
-        switch (col.tag)
+        if (curWeapon != null) curWeapon.gameObject.SetActive(false);
+        curWeaponIndex = Mathf.Abs(Mathf.Clamp(curWeaponIndex, 0, weaponInv.Count));
+        if (curWeaponIndex >= 1) curWeapon = weaponInv[curWeaponIndex - 1]; //index weaponInv
+        curWeapon.gameObject.SetActive(true);
+        GameManager.GM.curWeapon.text = curWeapon.wType.ToString();
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+
+        switch (col.gameObject.tag)
         {
             case "Weapon":
-                Weapon w = col.GetComponent<Weapon>();
-                weaponInv.Add(w);
-                //if (weaponInv.Contains(col.GetComponent<Weapon>().wType){}
-                return;
+                Weapon w = col.gameObject.GetComponent<Weapon>(); weaponInv.Add(w); //add weapon to Inv
+                col.transform.SetParent(GameManager.GM.player.transform); col.gameObject.SetActive(false); //parent and disable weapon
+                curWeaponIndex++;
+                UpdateWeaponIndex();
+                break;
         }
     }
 
@@ -48,13 +70,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) NextWeapon();
-        if (Input.GetKeyDown(KeyCode.Q)) LastWeapon();
-        if (Input.GetKeyDown(KeyCode.Space)) FireWeapon();
-
-        GameManager.GM.Health.value = Mathf.Lerp(0, maxHealth, health);
-
-
+        UpdateInput();
 
     }
     private void FixedUpdate()
@@ -68,11 +84,18 @@ public class PlayerController : MonoBehaviour
         Vector2 rbVel = rb.velocity;
         Vector2 tPlayer = new Vector2(transform.position.x, transform.position.y);
         Vector2.SmoothDamp(tPlayer, tPlayer + move, ref rbVel, frictionAmount, maxSpeed);
-        rb.velocity = rbVel;
+        //rb.velocity = rbVel
+        rb.velocity = rbVel * moveMult;
     }
     public void TakeDamage(int dmg, GameObject enemy)
     {
         health -= dmg;
+        GameManager.GM.Health.text = (health).ToString(); //health stuff not working for now
+        if (health < 1) Die();
     }
-
+    public void Die()
+    {
+        GameManager.GM.roundStarted = false;
+        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+    }
 }

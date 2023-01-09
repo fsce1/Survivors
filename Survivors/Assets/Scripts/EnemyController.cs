@@ -24,53 +24,60 @@ public class EnemyController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        GameManager.GM.enemies.Add(this.gameObject);
-    }
-    void Update()
-    {
-        Vector3 targetVector = Vector3.zero;
         switch (type)
         {
             case enemyType.Melee:
-                Transform tPlayer = GameManager.GM.player.transform;
-                targetVector = tPlayer.position - transform.position; targetVector.Normalize();
-                //rb.AddForce(targetVector*moveSpeed);
-                rb.velocity = targetVector;
-                //Debug.DrawRay(transform.position, targetVector);
-                
+                sr.color = Color.red;
+                //moveSpeed = 0.25f;
+                moveSpeed = 1;
+                break;
+            case enemyType.Ranger:
+                sr.color = Color.cyan;
+                moveSpeed = 0.25f;
+                break;
+        }
+        GameManager.GM.enemies.Add(this.gameObject);
+        gameObject.name = type.ToString();
+    }
+    public void Move()
+    {
+        Vector3 targetVector = Vector3.zero;
+
+        Transform tPlayer = GameManager.GM.player.transform;
+        targetVector = tPlayer.position - transform.position; targetVector.Normalize();
+        rb.velocity = targetVector * moveSpeed;
+
+    }
+    void Update()
+    {
+
+        Move();
+
+        switch (type)                //possible different AI, range sweet spots
+        {
+            case enemyType.Melee:
 
                 return;
             case enemyType.Ranger:
-                sr.color = Color.cyan;
-
-
-
-
-
-
-
-
-
-
 
                 return;
         }
 
-        //CLOSE TO FRIENDS
+        ////CLOSE TO FRIENDS
 
-        Transform tClosest = null;
-        float minDist = Mathf.Infinity;
-        foreach(GameObject g in GameManager.GM.enemies)
-        {
-            Transform t = g.transform;
-            float dist = Vector3.Distance(transform.position, t.position);
+        //Transform tClosest = null;
+        //float minDist = Mathf.Infinity;
+        //foreach(GameObject g in GameManager.GM.enemies)
+        //{
+        //    Transform t = g.transform;
+        //    float dist = Vector3.Distance(transform.position, t.position);
 
-            if (dist < minDist)
-            {
-                tClosest = t;
-                minDist = dist;
-            }
-        }
+        //    if (dist < minDist)
+        //    {
+        //        tClosest = t;
+        //        minDist = dist;
+        //    }
+        //}
 
 
 
