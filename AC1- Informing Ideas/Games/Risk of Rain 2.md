@@ -5,4 +5,9 @@ These Chests give you upgrades, such as higher critical hit chance, and unique p
 You can also unlock Equipment, which works like an Ultimate in most team-based shooters and MOBAs. Its a powerful ability that takes a long amount of time, usually over a minute, to recharge.
 There are a number of other things alongside Chests that you can find, including a 3D printer, which removes a random upgrade and gives you the item displayed on its screen; A Scrapper where you can choose to recycle an upgrade for a free 3D Printer token; etc.
 
-It prioritises building synergies between different upgrades
+It prioritises building synergies between different upgrades, as stacking abilities is very powerful.
+Once you complete each level, you lose all of your money. this encourages you to get all of the upgrades you possibly can, so you don't waste money
+
+
+difficulty timer- add to game- increments of 5mins
+- enemies move faster 

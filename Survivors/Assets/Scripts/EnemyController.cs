@@ -11,15 +11,21 @@ public class EnemyController : MonoBehaviour
     }
 
     Rigidbody2D rb;
+    SpriteRenderer sr;
 
     public int dmg = 10;
     public float moveSpeed;
     public enemyType type = enemyType.Melee;
-    void Start()
+    //void Start()
+    //{
+    //}
+
+    public void Setup()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        GameManager.GM.enemies.Add(this.gameObject);
     }
-
     void Update()
     {
         Vector3 targetVector = Vector3.zero;
@@ -27,15 +33,15 @@ public class EnemyController : MonoBehaviour
         {
             case enemyType.Melee:
                 Transform tPlayer = GameManager.GM.player.transform;
-                targetVector = tPlayer.position - transform.position;
+                targetVector = tPlayer.position - transform.position; targetVector.Normalize();
                 //rb.AddForce(targetVector*moveSpeed);
-                rb.velocity = targetVector * moveSpeed;
-                Debug.DrawRay(transform.position, targetVector);
+                rb.velocity = targetVector;
+                //Debug.DrawRay(transform.position, targetVector);
                 
 
                 return;
             case enemyType.Ranger:
-
+                sr.color = Color.cyan;
 
 
 
@@ -50,7 +56,7 @@ public class EnemyController : MonoBehaviour
                 return;
         }
 
-
+        //CLOSE TO FRIENDS
 
         Transform tClosest = null;
         float minDist = Mathf.Infinity;
