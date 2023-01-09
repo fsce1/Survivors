@@ -3,5 +3,6 @@
   "showFrontmatter": true,
   "promptDelete": false,
   "alwaysUpdateLinks": true,
-  "showUnsupportedFiles": true
+  "showUnsupportedFiles": true,
+  "spellcheck": true
 }
