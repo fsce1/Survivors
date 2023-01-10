@@ -16,12 +16,13 @@ public class GameManager : MonoBehaviour
     public PlayerController player;
     public GameObject enemyPrefab;
     public Vector2 enemyGroupSize = new Vector2(5, 20);
-    public Vector2 timeBetweenSpawns = new Vector2(0, 5);
+    public Vector2 timeBetweenSpawns = new Vector2(2, 8);
     public int roundTimeLimit = 30 *60; // 30 minutes
     public List<GameObject> enemies;
     public Transform enemyParent;
     public Transform Aim;
     public GameObject bullet;
+    public int enemiesKilled = 0;
 
     [Header("UI Elements")]
     public Button startRound;
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator RoundTimer(int time)
     {
-        while (time >= 0)
+        while (time > 0)
         {
             time -= 1;
             roundTimer.text = CustomMath.SecondsToTimer(time);
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
     }
     public void OnRoundTimer()
     {
+        player.Die();
         //increment difficulty up
     }
     public IEnumerator EnemyTimer(int time)

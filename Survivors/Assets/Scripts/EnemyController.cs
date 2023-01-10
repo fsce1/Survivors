@@ -12,7 +12,8 @@ public class EnemyController : MonoBehaviour
 
     Rigidbody2D rb;
     SpriteRenderer sr;
-
+    public int health = 4;
+    public int maxHealth = 4;
     public int dmg = 10;
     public float moveSpeed;
     public enemyType type = enemyType.Melee;
@@ -42,6 +43,7 @@ public class EnemyController : MonoBehaviour
         }
         GameManager.GM.enemies.Add(this.gameObject);
         gameObject.name = type.ToString();
+        health = maxHealth;
     }
     public void Move()
     {
@@ -74,6 +76,9 @@ public class EnemyController : MonoBehaviour
         GameObject eBullet = Instantiate(GameManager.GM.bullet, muzzlePos.position, transform.rotation);
         Vector2 target = (GameManager.GM.player.transform.position - transform.position);
         eBullet.GetComponent<Rigidbody2D>().AddForce(target.normalized * muzzleVel, ForceMode2D.Impulse);
+        Bullet bullet = eBullet.GetComponent<Bullet>();
+        bullet.firedFromPlayer = false; bullet.weaponFiredFrom = gameObject; bullet.dmg = dmg;
+
     }
     void Update()
     {
@@ -119,10 +124,17 @@ public class EnemyController : MonoBehaviour
 
     }
 
-
-    private void Move(Vector2 move)
+    public void TakeDamage(int dmg)
     {
-        rb.velocity = move;
+        health -= dmg;
+        if (health < 1) Die();
+    }
+    public void Die()
+    {
+        GameManager.GM.enemies.Remove(gameObject);
+        GameManager.GM.enemiesKilled++;
+        GameManager.GM.enemyKills.text = "? = " + GameManager.GM.enemiesKilled.ToString();
+        Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D col)

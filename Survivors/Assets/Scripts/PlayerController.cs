@@ -11,19 +11,32 @@ public class PlayerController : MonoBehaviour
     public float moveMult = 1;
     public float maxSpeed = 1;
     Rigidbody2D rb;
+    public bool isFiring;
 
     [Header("Inventory")]
     public List<Weapon> weaponInv;
     public int curWeaponIndex = 0;
     public Weapon curWeapon;
 
+    public Coroutine firingTimer;
 
     public void UpdateInput()
     {
         if (Input.anyKey) GameManager.GM.StartRound();
         if (Input.GetKeyDown(KeyCode.E)) NextWeapon();
         if (Input.GetKeyDown(KeyCode.Q)) LastWeapon();
-        if (Input.GetKeyDown(KeyCode.Space)) FireWeapon();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isFiring = true;
+             firingTimer = StartCoroutine(curWeapon.BulletTimer(curWeapon.cooldown));
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isFiring = false;
+            StopCoroutine(firingTimer);
+            curWeapon.firstShot = false;
+        }
+
     }
     public void NextWeapon()
     {
@@ -35,40 +48,22 @@ public class PlayerController : MonoBehaviour
         curWeaponIndex--;
         UpdateCurWeapon();
     }
-    public void FireWeapon()
-    {
-        curWeapon.Fire();
-    }
     public void AddWeaponToInv(GameObject col)
     {
         weaponInv.Add(col.GetComponent<Weapon>()); //Add weapon to Inv
         UpdateCurWeapon();
         curWeapon.Setup(); // set up weapon
         //col.transform.SetParent(GameManager.GM.player.transform); col.gameObject.SetActive(false); //Parent and disable weapon
-        curWeaponIndex++;
-
-
     }
     public void UpdateCurWeapon()
     {
-        if (curWeapon == null)
-        {
-            Debug.Log("weapon null!");
-            return;
-        }
         //curWeapon.gameObject.SetActive(false);
 
-        curWeaponIndex = Mathf.Abs(Mathf.Clamp(curWeaponIndex, 0, weaponInv.Count)); //Make sure Index is a valid indexer
 
-        if (curWeaponIndex >= 0)
-        {
-            curWeapon = weaponInv[curWeaponIndex - 0];
-        } //Index weaponInv
-        else
-        {
-            return;
-            //NO WEAPON
-        }
+        curWeaponIndex = Mathf.Abs(Mathf.Clamp(curWeaponIndex, 0, weaponInv.Count - 1)); //Make sure Index is a valid indexer
+
+        curWeapon = weaponInv[curWeaponIndex]; //Index weaponInv
+
         curWeapon.gameObject.SetActive(true);//Activate new weapon
 
         //GetComponent<Collider2D>().enabled = false; //Disable collider

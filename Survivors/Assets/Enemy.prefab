@@ -47,11 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae58801ccb24574bad3f9f1f0f34651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 4
+  maxHealth: 4
   dmg: 1
   moveSpeed: 0.25
   type: 0
   weapon: {fileID: 635589279967903327}
-  timeBetweenShots: {x: 2, y: 3}
+  timeBetweenShots: {x: 5, y: 10}
   muzzleVel: 5
   muzzlePos: {fileID: 6064275551316408608}
 --- !u!212 &3464609125218578697
