@@ -28,37 +28,61 @@ public class PlayerController : MonoBehaviour
     public void NextWeapon()
     {
         curWeaponIndex++;
-        UpdateWeaponIndex();
+        UpdateCurWeapon();
     }
     public void LastWeapon()
     {
         curWeaponIndex--;
-        UpdateWeaponIndex();
+        UpdateCurWeapon();
     }
     public void FireWeapon()
     {
         curWeapon.Fire();
     }
-
-    public void UpdateWeaponIndex()
+    public void AddWeaponToInv(GameObject col)
     {
-        if (curWeapon != null) curWeapon.gameObject.SetActive(false);
-        curWeaponIndex = Mathf.Abs(Mathf.Clamp(curWeaponIndex, 0, weaponInv.Count));
-        if (curWeaponIndex >= 1) curWeapon = weaponInv[curWeaponIndex - 1]; //index weaponInv
-        curWeapon.gameObject.SetActive(true);
+        weaponInv.Add(col.GetComponent<Weapon>()); //Add weapon to Inv
+        UpdateCurWeapon();
+        curWeapon.Setup(); // set up weapon
+        //col.transform.SetParent(GameManager.GM.player.transform); col.gameObject.SetActive(false); //Parent and disable weapon
+        curWeaponIndex++;
+
+
+    }
+    public void UpdateCurWeapon()
+    {
+        if (curWeapon == null)
+        {
+            Debug.Log("weapon null!");
+            return;
+        }
+        //curWeapon.gameObject.SetActive(false);
+
+        curWeaponIndex = Mathf.Abs(Mathf.Clamp(curWeaponIndex, 0, weaponInv.Count)); //Make sure Index is a valid indexer
+
+        if (curWeaponIndex >= 0)
+        {
+            curWeapon = weaponInv[curWeaponIndex - 0];
+        } //Index weaponInv
+        else
+        {
+            return;
+            //NO WEAPON
+        }
+        curWeapon.gameObject.SetActive(true);//Activate new weapon
+
+        //GetComponent<Collider2D>().enabled = false; //Disable collider
+
         GameManager.GM.curWeapon.text = curWeapon.wType.ToString();
     }
 
-    private void OnCollisionEnter2D(Collision2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
-
         switch (col.gameObject.tag)
         {
             case "Weapon":
-                Weapon w = col.gameObject.GetComponent<Weapon>(); weaponInv.Add(w); //add weapon to Inv
-                col.transform.SetParent(GameManager.GM.player.transform); col.gameObject.SetActive(false); //parent and disable weapon
-                curWeaponIndex++;
-                UpdateWeaponIndex();
+                AddWeaponToInv(col.gameObject);
+                UpdateCurWeapon();
                 break;
         }
     }

@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour
     public int dmg = 10;
     public float moveSpeed;
     public enemyType type = enemyType.Melee;
+    public Transform weapon;
     //void Start()
     //{
     //}
@@ -34,6 +35,9 @@ public class EnemyController : MonoBehaviour
             case enemyType.Ranger:
                 sr.color = Color.cyan;
                 moveSpeed = 0.25f;
+
+                StartCoroutine(RangerTimer(CustomMath.GetRandom(timeBetweenShots)));
+
                 break;
         }
         GameManager.GM.enemies.Add(this.gameObject);
@@ -48,8 +52,33 @@ public class EnemyController : MonoBehaviour
         rb.velocity = targetVector * moveSpeed;
 
     }
+    public Vector2 timeBetweenShots = new Vector2(1,1.25f);
+    public float muzzleVel = 5;
+    public Transform muzzlePos;
+    public IEnumerator RangerTimer(float time)
+    {
+        while (time > 0)
+        {
+            time -= 0.1f;
+            yield return new WaitForSeconds(0.1f);
+        }
+        OnRangerTimer();
+    }
+    void OnRangerTimer()
+    {
+        Fire();
+        StartCoroutine(RangerTimer(CustomMath.GetRandom(timeBetweenShots)));
+    }
+    public void Fire()
+    {
+        GameObject eBullet = Instantiate(GameManager.GM.bullet, muzzlePos.position, transform.rotation);
+        Vector2 target = (GameManager.GM.player.transform.position - transform.position);
+        eBullet.GetComponent<Rigidbody2D>().AddForce(target.normalized * muzzleVel, ForceMode2D.Impulse);
+    }
     void Update()
     {
+
+        weapon.transform.right = GameManager.GM.player.transform.position - transform.position;
 
         Move();
 
@@ -59,7 +88,6 @@ public class EnemyController : MonoBehaviour
 
                 return;
             case enemyType.Ranger:
-
                 return;
         }
 

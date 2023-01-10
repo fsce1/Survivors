@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     public int roundTimeLimit = 30 *60; // 30 minutes
     public List<GameObject> enemies;
     public Transform enemyParent;
+    public Transform Aim;
+    public GameObject bullet;
 
     [Header("UI Elements")]
     public Button startRound;

@@ -10,9 +10,6 @@ The games I looked at were Risk of Rain 2 and Vampire Survivors. I chose these 2
 My hope with the game that I will create, WORKING-TITLE, is that I can teach the basics of gaming to a new audience, with a simple 2D top-down take on rogue-likes and bullet-hells.
 Therefore, I've decided to automate a lot of the processes- such as aiming, firing and reloading- that more seasoned gamers are used to dealing with. Aiming and reloading will be automatic, and firing will be full-auto on every gun. My hope is that this lessens the learning curve for new/young players- this fits the brief because it is friendly towards 10-15 year-olds.
 When weighing up game engines, I mainly considered Unreal and Unity. That is because both of them are very well supported and have a lot of QOL features. However I chose Unity, as it has better support for 2D environments and I know C# better than C++.
-
-
-
 # Games
 - Why is this game interesting?
 - What *don't* I like about this game?
@@ -21,3 +18,6 @@ When weighing up game engines, I mainly considered Unreal and Unity. That is bec
 ![[Vampire Survivors]]
 ### Risk of Rain 2
  ![[Risk of Rain 2]]
+# Moodboard
+ I created a Moodboard to help focus the visual style of my game.
+ ![[Moodboard.canvas]]
