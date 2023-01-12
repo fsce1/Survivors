@@ -4,15 +4,27 @@
 enemy kill count is the same as currency, trading souls like DS
 buy upgrades with souls
 
+
+
 Upgrades:
-- Special upgrades
+
+### Special upgrades
 - "Back-blast" - BB - Bullets propel you backwards in recoil.
 - "Hidden Magnet" - HM - Bullets curve towards your crosshairs.
 
-- Generic upgrades
-- "Container of Hearts" - CH - Max Health += 25;
+###  Generic upgrades
+- "Container of Hearts" - CH - Max Health += 1;
 - "Wind's Blow" - WB - Movement Speed * 1.1;
-- "Marksman's Meal" - MM - Target Acquisition * 0.9; //this is an upgrade- lower is better on this variable
+- "Marksman's Meal" - MM - Target Acquisition * 0.9; //this is an upgrade- lower is better on this 
+
+### Weapons
+- Pistol (Free)
+- Shotgun (160 kills)
+- Machine Gun (300 kills)
+-
+### Enemy Upgrades
+- "Strong Armor" - !SA - All Enemies: Max Health += 1
+- "Marksman's Scope" - !MS - Rangers: Muzzle Vel * 1.1
 
 meta progression is reaching milestones of number of kills
 

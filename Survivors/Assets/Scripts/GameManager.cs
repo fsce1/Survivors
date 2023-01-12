@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     public int enemiesKilled = 0;
 
     [Header("UI Elements")]
-    public Button startRound;
     public Text roundTimer;
     public Text enemyKills;
     public Text enemyTimer;
@@ -35,13 +34,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        startRound.gameObject.SetActive(true);
     }
     public void StartRound()
     {
         if(roundStarted) return;
-
-        startRound.gameObject.SetActive(false);
 
         StartCoroutine(RoundTimer(roundTimeLimit));
         OnSpawnTimer();

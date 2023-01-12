@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     public float moveMult = 1;
     public float maxSpeed = 1;
     Rigidbody2D rb;
-    public bool isFiring;
 
     [Header("Inventory")]
     public List<Weapon> weaponInv;
@@ -27,32 +26,33 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) LastWeapon();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            isFiring = true;
-             firingTimer = StartCoroutine(curWeapon.BulletTimer(curWeapon.cooldown));
+            curWeapon.StartTimer();
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            isFiring = false;
-            StopCoroutine(firingTimer);
-            curWeapon.firstShot = false;
+            curWeapon.StopTimer();
         }
 
     }
     public void NextWeapon()
     {
+        //curWeapon.StopTimer();
         curWeaponIndex++;
         UpdateCurWeapon();
     }
     public void LastWeapon()
     {
+        //curWeapon.StopTimer();
         curWeaponIndex--;
         UpdateCurWeapon();
     }
     public void AddWeaponToInv(GameObject col)
     {
         weaponInv.Add(col.GetComponent<Weapon>()); //Add weapon to Inv
+        curWeaponIndex++;
         UpdateCurWeapon();
         curWeapon.Setup(); // set up weapon
+        curWeapon.isInInventory = true;
         //col.transform.SetParent(GameManager.GM.player.transform); col.gameObject.SetActive(false); //Parent and disable weapon
     }
     public void UpdateCurWeapon()
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
         curWeapon.gameObject.SetActive(true);//Activate new weapon
 
-        //GetComponent<Collider2D>().enabled = false; //Disable collider
+        curWeapon.GetComponent<Collider2D>().enabled = false; //Disable collider
 
         GameManager.GM.curWeapon.text = curWeapon.wType.ToString();
     }
@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
         switch (col.gameObject.tag)
         {
             case "Weapon":
+                Debug.Log("Collided with Weapon");
                 AddWeaponToInv(col.gameObject);
                 UpdateCurWeapon();
                 break;

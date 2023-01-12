@@ -7,7 +7,8 @@ In order to level up, you pick up small gems (larger enemies drop better gems) w
 - Garlic : All Base Area up by 10% per stack
 
 ## Evaluation
-One thing that I like about this game is that it ramps up the difficulty by increasing the number of enemies on screen. This makes it extremely satisfying to wipe an entire screen that was previously full of enemies.
+One thing that I like about this game is that it ramps up the difficulty by increasing the number of enemies on screen. This makes it extremely satisfying to wipe an entire screen that was previously full of enemies. It also makes damage scaling much simpler, as the difficulty is not based on damage numbers.
+I will expand on this idea by 
 
 One thing that I dislike about this game is that it doesn't allow the player to move through the level at their own pace. I often found I was waiting a long time before the game started to get interesting. It has a very slow start to each round.
 In my game, I will ramp up the difficulty more frequently and clearly (with a choice on what specific part of the game should be harder). This means you can tailor the difficulty of the game to yourself and build specific item load-outs to perfectly counter the enemies' weaknesses (chosen by you)
