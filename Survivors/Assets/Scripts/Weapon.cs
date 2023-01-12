@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
         Shotgun
     }
     public WeaponType wType;
-    public Transform MuzzlePos;
+    public Transform muzzlePos;
     public Rigidbody2D rb;
     public int dmg;
     public Vector2 shotgunBurstAmt;
@@ -86,9 +86,9 @@ public class Weapon : MonoBehaviour
     {
         Debug.Log("SpawnBullet " + deviation);
 
-        Transform tBullet = Instantiate(GameManager.GM.bullet, MuzzlePos.position, MuzzlePos.rotation).transform;
+        Transform tBullet = Instantiate(GameManager.GM.bullet, muzzlePos.position, muzzlePos.rotation).transform;
         Rigidbody2D rb = tBullet.GetComponent<Rigidbody2D>();
-        rb.AddForce(MuzzlePos.right.normalized * CustomMath.GetRandom(muzzleVel), ForceMode2D.Impulse);
+        rb.AddForce(muzzlePos.right.normalized * CustomMath.GetRandom(muzzleVel), ForceMode2D.Impulse);
         Bullet bullet = tBullet.GetComponent<Bullet>();
         rb.AddForce(transform.up * deviation);
         bullet.firedFromPlayer = true; bullet.weaponFiredFrom = gameObject; bullet.dmg = dmg;

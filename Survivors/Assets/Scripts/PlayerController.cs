@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Die()
     {
-        GameManager.GM.roundStarted = false;
-        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene("GameOver");
+        //Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
     }
 }

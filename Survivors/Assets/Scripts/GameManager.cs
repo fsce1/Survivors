@@ -58,7 +58,8 @@ public class GameManager : MonoBehaviour
     }
     public void OnRoundTimer()
     {
-        player.Die();
+        EnemyUpgradeManager.EUM.DisplayEnemyUpgrades();
+        StartCoroutine(RoundTimer(roundTimeLimit));
         //increment difficulty up
     }
     public IEnumerator EnemyTimer(int time)
@@ -75,6 +76,10 @@ public class GameManager : MonoBehaviour
         SpawnEnemyGroup();
         StartCoroutine(EnemyTimer(CustomMath.GetRandomInt(timeBetweenSpawns)));
     }
+    [Header("Temporary System. Ranger chance must be SMALLER THAN melee chance")]
+    public float meleeChance;
+    public float rangerChance;
+
     public void SpawnEnemyGroup()
     {
 
@@ -85,7 +90,20 @@ public class GameManager : MonoBehaviour
             GameObject g = Instantiate(enemyPrefab, transform);
             g.transform.SetParent(enemyParent);
             EnemyController e = g.GetComponent<EnemyController>();
-            e.type = (EnemyController.enemyType)Random.Range(0, 1 + 1); //must change as enemy types added. +1 is because it generates floats and it will almost never generate 2 exactly, it truncates
+            e.type = (EnemyController.enemyType)Random.Range(0, 1 + 1);
+            float r = Random.Range(0f, 1f); // generates from 0 - 0.99999f
+            if (r < rangerChance)
+            {
+                e.type = EnemyController.enemyType.Ranger;
+            }
+            else if (r < meleeChance)
+            {
+                e.type = EnemyController.enemyType.Melee;
+
+            }
+
+
+            //must change as enemy types added. +1 is because it generates floats and it will almost never generate 2 exactly, it truncates
             e.Setup();
         }
 

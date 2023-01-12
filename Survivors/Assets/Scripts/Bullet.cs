@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Bullet : MonoBehaviour
 {
@@ -8,17 +9,17 @@ public class Bullet : MonoBehaviour
     public int dmg;
     public GameObject weaponFiredFrom;
     public bool firedFromPlayer;
-    public SpriteRenderer sr;
-
+    public TMP_Text rend;
     private void Start()
     {
         if(firedFromPlayer)
         {
-            sr.color = Color.black;
+            rend.color = Color.gray;
         }
         else
         {
-            sr.color = Color.white;
+            rend.color = Color.white;
+
         }
         //StartCoroutine(BulletLifetime(lifetime));
 

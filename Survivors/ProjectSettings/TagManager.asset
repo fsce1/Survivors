@@ -7,11 +7,12 @@ TagManager:
   - Enemy
   - Weapon
   - Bullet
+  - Upgrade
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PostProcessing
   - Water
   - UI
   - 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemyController : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class EnemyController : MonoBehaviour
     }
 
     Rigidbody2D rb;
-    SpriteRenderer sr;
+    public TMP_Text rend;
     public int health = 4;
     public int maxHealth = 4;
     public int dmg = 10;
@@ -25,16 +26,15 @@ public class EnemyController : MonoBehaviour
     public void Setup()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
         switch (type)
         {
             case enemyType.Melee:
-                sr.color = Color.red;
+                rend.color = Color.red;
                 //moveSpeed = 0.25f;
-                moveSpeed = 1;
+                moveSpeed = 1.25f;
                 break;
             case enemyType.Ranger:
-                sr.color = Color.cyan;
+                rend.color = Color.cyan;
                 moveSpeed = 0.25f;
 
                 StartCoroutine(RangerTimer(CustomMath.GetRandom(timeBetweenShots)));
@@ -73,7 +73,7 @@ public class EnemyController : MonoBehaviour
     }
     public void Fire()
     {
-        GameObject eBullet = Instantiate(GameManager.GM.bullet, muzzlePos.position, transform.rotation);
+        GameObject eBullet = Instantiate(GameManager.GM.bullet, muzzlePos.position, muzzlePos.rotation);
         Vector2 target = (GameManager.GM.player.transform.position - transform.position);
         eBullet.GetComponent<Rigidbody2D>().AddForce(target.normalized * muzzleVel, ForceMode2D.Impulse);
         Bullet bullet = eBullet.GetComponent<Bullet>();
@@ -133,7 +133,7 @@ public class EnemyController : MonoBehaviour
     {
         GameManager.GM.enemies.Remove(gameObject);
         GameManager.GM.enemiesKilled++;
-        GameManager.GM.enemyKills.text = "? = " + GameManager.GM.enemiesKilled.ToString();
+        GameManager.GM.enemyKills.text = "Kills = " + GameManager.GM.enemiesKilled.ToString();
         Destroy(gameObject);
     }
 

@@ -23,8 +23,8 @@ Upgrades:
 - Machine Gun (300 kills)
 -
 ### Enemy Upgrades
-- "Strong Armor" - !SA - All Enemies: Max Health += 1
-- "Marksman's Scope" - !MS - Rangers: Muzzle Vel * 1.1
+- "Strong Armor" - E-SA - All Enemies: Max Health += 1
+- "Marksman's Scope" - E-MS - Rangers: Muzzle Vel * 1.1
 
 meta progression is reaching milestones of number of kills
 
