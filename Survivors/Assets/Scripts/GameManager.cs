@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     public bool roundStarted = false;
     public PlayerController player;
     public GameObject enemyPrefab;
-    public Vector2 enemyGroupSize = new Vector2(5, 20);
     public Vector2 timeBetweenSpawns = new Vector2(2, 8);
     public int roundTimeLimit = 30 *60; // 30 minutes
     public List<GameObject> enemies;
@@ -82,9 +81,9 @@ public class GameManager : MonoBehaviour
 
     public void SpawnEnemyGroup()
     {
-
+        Vector2 groupAmount = EnemyUpgradeManager.EUM.groupAmount;
         transform.position = Random.insideUnitCircle.normalized * Random.Range(35f, 45f);
-        for (int j = (int)Random.Range(enemyGroupSize.x, enemyGroupSize.y); j > 0; j--) //for-loop on random number of enemies inside range
+        for (int j = (int)Random.Range(groupAmount.x, groupAmount.y); j > 0; j--) //for-loop on random number of enemies inside range
         {
             transform.position += new Vector3(Random.Range(-15, 15), Random.Range(-15, 15));
             GameObject g = Instantiate(enemyPrefab, transform);

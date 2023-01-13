@@ -25,6 +25,7 @@ public class EnemyController : MonoBehaviour
 
     public void Setup()
     {
+        maxHealth += EnemyUpgradeManager.EUM.addHealth;
         rb = GetComponent<Rigidbody2D>();
         switch (type)
         {
@@ -51,10 +52,10 @@ public class EnemyController : MonoBehaviour
 
         Transform tPlayer = GameManager.GM.player.transform;
         targetVector = tPlayer.position - transform.position; targetVector.Normalize();
-        rb.velocity = targetVector * moveSpeed;
+        rb.velocity = targetVector * moveSpeed * EnemyUpgradeManager.EUM.multMoveSpeed;
 
     }
-    public Vector2 timeBetweenShots = new Vector2(1,1.25f);
+    public Vector2 timeBetweenShots = EnemyUpgradeManager.EUM.groupAmount;
     public float muzzleVel = 5;
     public Transform muzzlePos;
     public IEnumerator RangerTimer(float time)
@@ -75,7 +76,7 @@ public class EnemyController : MonoBehaviour
     {
         GameObject eBullet = Instantiate(GameManager.GM.bullet, muzzlePos.position, muzzlePos.rotation);
         Vector2 target = (GameManager.GM.player.transform.position - transform.position);
-        eBullet.GetComponent<Rigidbody2D>().AddForce(target.normalized * muzzleVel, ForceMode2D.Impulse);
+        eBullet.GetComponent<Rigidbody2D>().AddForce(target.normalized * muzzleVel * EnemyUpgradeManager.EUM.multMuzzleVelocity, ForceMode2D.Impulse);
         Bullet bullet = eBullet.GetComponent<Bullet>();
         bullet.firedFromPlayer = false; bullet.weaponFiredFrom = gameObject; bullet.dmg = dmg;
 

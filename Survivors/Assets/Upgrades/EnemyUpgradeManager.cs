@@ -16,11 +16,8 @@ public class EnemyUpgradeManager : MonoBehaviour
     }
     #endregion
     public List<Upgrade> upgrades;
-    IDictionary<Upgrade, int> upgradeStack = new Dictionary<Upgrade, int>();
-
+    public IDictionary<Upgrade, int> upgradeStack = new Dictionary<Upgrade, int>();
     public GameObject overlay;
-
-
 
     private void Start()
     {
@@ -38,6 +35,38 @@ public class EnemyUpgradeManager : MonoBehaviour
     public List<TMP_Text> buttons;
     public List<Upgrade> choices;
     public int choiceNum = 3;
+
+    [Header("Enemy Vars")]
+    public float multMuzzleVelocity = 1;
+    public float multMoveSpeed = 1;
+    public Vector2 firingSpeed = new Vector2(2, 4);
+    public int addHealth = 0;
+    public Vector2 groupAmount= new Vector2(5, 15);
+    void ApplyThisUpgrade(Upgrade u)
+    {
+        switch (u.shorthandKey)
+        {
+            case "E-MM":
+                firingSpeed.x -= 0.2f; firingSpeed.y -= 0.2f;
+                break;
+            case "E-RA":
+                addHealth += 2;
+                break;
+            case "E-WB":
+                multMoveSpeed += 0.05f;
+                break;
+            case "E-RT":
+                groupAmount.y += 1;
+                break;
+            case "E-PP":
+                groupAmount.x += 1;
+                break;
+            case "E-BB":
+                multMuzzleVelocity += 0.1f;
+                break;
+        }
+    }
+
     public void DisplayEnemyUpgrades() //Called every RoundTimer
     {
         Time.timeScale = 0;
@@ -59,29 +88,23 @@ public class EnemyUpgradeManager : MonoBehaviour
     {
         overlay.SetActive(false);
         Time.timeScale = 1;
-        Debug.Log(sel);
-        AddToDictionary(choices[sel]);
+
+        IterateInDictionary(choices[sel]);
         choices.Clear();
         ApplyUpgrades();
     }
-    public void AddToDictionary(Upgrade u)
+    public void IterateInDictionary(Upgrade u)
     {
         upgradeStack[u] += 1;
         Debug.Log("stack for " + u + " is now at " + upgradeStack[u]);
     }
 
-    public List<Upgrade> appliedUpgrades;
-    public void ApplyUpgrades()
-    {
-        foreach (Upgrade u in StripEmptyUpgrades(upgrades))
-        {
-            Debug.Log("Applying " + u.upgrade + " " + upgradeStack[u] + "Times");
-            appliedUpgrades.Add(u);
-        }
-    }
+    public List<Upgrade> activeUpgrades;
+
+
     public List<Upgrade> StripEmptyUpgrades(List<Upgrade> l)
     {
-        List<Upgrade> stripped = l;
+        List<Upgrade> stripped = new List<Upgrade>(l);
 
         foreach (Upgrade u in l)
         {
@@ -95,11 +118,40 @@ public class EnemyUpgradeManager : MonoBehaviour
 
         return stripped;
     }
-
-
-    public void ParseToStrings()
+    public void ApplyUpgrades()
     {
+        activeUpgrades.Clear();
 
+        foreach (Upgrade u in StripEmptyUpgrades(upgrades))
+        {
+            activeUpgrades.Add(u);
+            Debug.Log("Applying " + u.upgrade + " " + upgradeStack[u] + " Times");
+
+
+        }
+        foreach (Upgrade u in activeUpgrades)
+        {
+            for (int i = 0; i < upgradeStack[u]; i++)
+            {
+                ApplyThisUpgrade(u);
+            }
+        }
+
+        disp.text = UpgradesToText(activeUpgrades);
+
+        //UpdateUI();
     }
-
+    
+    public TMP_Text disp;
+    public string UpgradesToText(List<Upgrade> list)
+    {
+        string result = "";
+        foreach (Upgrade u in list)
+        {
+            result += upgradeStack[u] + " " + u.shorthandKey + "\n";
+        }
+        result.Replace("E", "E-");
+        result.Replace("(Upgrade)", "");
+        return result;
+    }
 }
