@@ -5,7 +5,7 @@ using TMPro;
 
 public class EnemyController : MonoBehaviour
 {
-    public enum enemyType
+    public enum EnemyType
     {
         Melee,
         Ranger
@@ -14,10 +14,9 @@ public class EnemyController : MonoBehaviour
     Rigidbody2D rb;
     public TMP_Text rend;
     public int health = 4;
-    public int maxHealth = 4;
-    public int dmg = 10;
-    public float moveSpeed;
-    public enemyType type = enemyType.Melee;
+    public float typeMoveSpeed;
+
+    public EnemyType type = EnemyType.Melee;
     public Transform weapon;
     //void Start()
     //{
@@ -25,18 +24,18 @@ public class EnemyController : MonoBehaviour
 
     public void Setup()
     {
-        maxHealth += EnemyUpgradeManager.EUM.addHealth;
+        timeBetweenShots = UpgradeManager.UM.eFiringSpeed;
         rb = GetComponent<Rigidbody2D>();
         switch (type)
         {
-            case enemyType.Melee:
+            case EnemyType.Melee:
                 rend.color = Color.red;
                 //moveSpeed = 0.25f;
-                moveSpeed = 1.25f;
+                typeMoveSpeed = 1.25f;
                 break;
-            case enemyType.Ranger:
+            case EnemyType.Ranger:
                 rend.color = Color.cyan;
-                moveSpeed = 0.25f;
+                typeMoveSpeed = 0.5f;
 
                 StartCoroutine(RangerTimer(CustomMath.GetRandom(timeBetweenShots)));
 
@@ -44,18 +43,14 @@ public class EnemyController : MonoBehaviour
         }
         GameManager.GM.enemies.Add(this.gameObject);
         gameObject.name = type.ToString();
-        health = maxHealth;
+        health = UpgradeManager.UM.eMaxHealth;
     }
     public void Move()
     {
-        Vector3 targetVector = Vector3.zero;
-
-        Transform tPlayer = GameManager.GM.player.transform;
-        targetVector = tPlayer.position - transform.position; targetVector.Normalize();
-        rb.velocity = targetVector * moveSpeed * EnemyUpgradeManager.EUM.multMoveSpeed;
-
+        Vector3 targetVector = GameManager.GM.player.transform.position - transform.position; targetVector.Normalize();
+        rb.velocity = UpgradeManager.UM.eMultMoveSpeed * typeMoveSpeed *  targetVector;
     }
-    public Vector2 timeBetweenShots = EnemyUpgradeManager.EUM.groupAmount;
+    public Vector2 timeBetweenShots;
     public float muzzleVel = 5;
     public Transform muzzlePos;
     public IEnumerator RangerTimer(float time)
@@ -76,9 +71,9 @@ public class EnemyController : MonoBehaviour
     {
         GameObject eBullet = Instantiate(GameManager.GM.bullet, muzzlePos.position, muzzlePos.rotation);
         Vector2 target = (GameManager.GM.player.transform.position - transform.position);
-        eBullet.GetComponent<Rigidbody2D>().AddForce(target.normalized * muzzleVel * EnemyUpgradeManager.EUM.multMuzzleVelocity, ForceMode2D.Impulse);
+        eBullet.GetComponent<Rigidbody2D>().AddForce(muzzleVel * UpgradeManager.UM.eMultMuzzleVelocity * target.normalized, ForceMode2D.Impulse);
         Bullet bullet = eBullet.GetComponent<Bullet>();
-        bullet.firedFromPlayer = false; bullet.weaponFiredFrom = gameObject; bullet.dmg = dmg;
+        bullet.firedFromPlayer = false; bullet.weaponFiredFrom = gameObject; bullet.dmg = UpgradeManager.UM.eDmg;
 
     }
     void Update()
@@ -90,39 +85,12 @@ public class EnemyController : MonoBehaviour
 
         switch (type)                //possible different AI, range sweet spots
         {
-            case enemyType.Melee:
+            case EnemyType.Melee:
 
                 return;
-            case enemyType.Ranger:
+            case EnemyType.Ranger:
                 return;
         }
-
-        ////CLOSE TO FRIENDS
-
-        //Transform tClosest = null;
-        //float minDist = Mathf.Infinity;
-        //foreach(GameObject g in GameManager.GM.enemies)
-        //{
-        //    Transform t = g.transform;
-        //    float dist = Vector3.Distance(transform.position, t.position);
-
-        //    if (dist < minDist)
-        //    {
-        //        tClosest = t;
-        //        minDist = dist;
-        //    }
-        //}
-
-
-
-        //+(transform.position - tClosest.position));
-
-        //Move(targetVector * moveSpeed);
-
-
-
-
-
     }
 
     public void TakeDamage(int dmg)
@@ -133,17 +101,16 @@ public class EnemyController : MonoBehaviour
     public void Die()
     {
         GameManager.GM.enemies.Remove(gameObject);
-        GameManager.GM.enemiesKilled++;
-        GameManager.GM.enemyKills.text = "Kills = " + GameManager.GM.enemiesKilled.ToString();
         Destroy(gameObject);
+        GameManager.GM.enemiesKilled++;
+        GameManager.GM.tEnemyKills.text = "Kills = " + GameManager.GM.enemiesKilled.ToString();
     }
-
     private void OnCollisionEnter2D(Collision2D col)
     {
         switch (col.gameObject.tag)
         {
             case "Player":
-                GameManager.GM.player.TakeDamage(dmg, gameObject);
+                GameManager.GM.player.TakeDamage(UpgradeManager.UM.eDmg, gameObject);
                 return;
 
         }

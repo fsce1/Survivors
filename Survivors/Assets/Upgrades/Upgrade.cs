@@ -22,6 +22,8 @@ public class Upgrade : ScriptableObject
     //}
     //public UpgradeType upgradeType;
     //public EnemyUpgradeType enemyUpgradeType;
+    public bool isEnemy;
     public string shorthandKey;
     public string upgrade;
+    public string description;
 }

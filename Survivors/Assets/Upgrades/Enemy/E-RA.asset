@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5de3cd278b3d99740b5e35e78622e6c1, type: 3}
   m_Name: E-RA
   m_EditorClassIdentifier: 
+  isEnemy: 1
   shorthandKey: E-RA
   upgrade: Reinforced Armor
-  codeSnippet: addHealth += 2;
+  description: Max Health + 1

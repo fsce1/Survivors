@@ -6,10 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public int health = 100;
-    public int maxHealth = 100;
     public float frictionAmount = 0.1f;
-    public float moveMult = 1;
-    public float maxSpeed = 1;
     Rigidbody2D rb;
 
     [Header("Inventory")]
@@ -68,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
         curWeapon.GetComponent<Collider2D>().enabled = false; //Disable collider
 
-        GameManager.GM.curWeapon.text = curWeapon.wType.ToString();
+        GameManager.GM.tCurWeapon.text = curWeapon.wType.ToString();
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -81,6 +78,7 @@ public class PlayerController : MonoBehaviour
                 UpdateCurWeapon();
                 break;
         }
+
     }
 
 
@@ -103,14 +101,14 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 rbVel = rb.velocity;
         Vector2 tPlayer = new Vector2(transform.position.x, transform.position.y);
-        Vector2.SmoothDamp(tPlayer, tPlayer + move, ref rbVel, frictionAmount, maxSpeed);
+        Vector2.SmoothDamp(tPlayer, tPlayer + move, ref rbVel, frictionAmount, UpgradeManager.UM.pMaxSpeed);
         //rb.velocity = rbVel
-        rb.velocity = rbVel * moveMult;
+        rb.velocity = rbVel * UpgradeManager.UM.pMultMoveSpeed;
     }
     public void TakeDamage(int dmg, GameObject enemy)
     {
         health -= dmg;
-        GameManager.GM.Health.text = (health).ToString(); //health stuff not working for now
+        GameManager.GM.tHealth.text = (health).ToString(); //health stuff not working for now
         if (health < 1) Die();
     }
     public void Die()
