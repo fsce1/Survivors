@@ -89,7 +89,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         UpdateInput();
+        UpdateAnim();
 
+    }
+    public Animator anim;
+    void UpdateAnim()
+    {
+        anim.SetFloat("speed", rb.velocity.magnitude);
+        anim.speed = rb.velocity.magnitude/10;
     }
     private void FixedUpdate()
     {

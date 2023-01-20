@@ -22,15 +22,16 @@ public class UpgradeManager : MonoBehaviour
     }
     public void SetupDictionary()
     {
-        foreach (Upgrade u in eMasterUpgrades) upgradeStack.Add(u, 0);
+        foreach (Upgrade u in eMasterUpgrades) eUpgradeStack.Add(u, 0);
     }
 
     public List<Upgrade> eMasterUpgrades;
     public List<Upgrade> eActiveUpgrades;
-    public IDictionary<Upgrade, int> upgradeStack = new Dictionary<Upgrade, int>();
-    public GameObject overlay;
+    public IDictionary<Upgrade, int> eUpgradeStack = new Dictionary<Upgrade, int>();
+
 
     [Header("UI")]
+    public GameObject invasionUI;
     public List<Tooltips> buttons;
     public List<Upgrade> choices;
     public int choiceNum;
@@ -49,16 +50,16 @@ public class UpgradeManager : MonoBehaviour
         }
 
         Time.timeScale = 0;
-        overlay.SetActive(true);
+        invasionUI.SetActive(true);
     }
     public void RecieveAnswer(int sel)
     {
-        IterateInDictionary(choices[sel]);
+        IterateInDictionary(eUpgradeStack, choices[sel]);
         choices.Clear(); //clean up enemy upgrades in choices
         ApplyUpgrades();
 
         Time.timeScale = 1;
-        overlay.SetActive(false);
+        invasionUI.SetActive(false);
     }
     #endregion
     #region ENEMY + PLAYER VARS
@@ -99,9 +100,9 @@ public class UpgradeManager : MonoBehaviour
                 break;
         }
     }
-    public void IterateInDictionary(Upgrade u)
+    public void IterateInDictionary(IDictionary<Upgrade, int> d, Upgrade u)
     {
-        upgradeStack[u] += 1;
+        d[u] += 1;
     }
     public List<Upgrade> StripEmptyUpgrades(List<Upgrade> listToStrip)
     {
@@ -109,7 +110,7 @@ public class UpgradeManager : MonoBehaviour
 
         foreach (Upgrade u in listToStrip)
         {
-            if (upgradeStack[u] == 0)
+            if (eUpgradeStack[u] == 0)
             {
                 stripped.Remove(u);
             }
@@ -127,34 +128,44 @@ public class UpgradeManager : MonoBehaviour
         }
         foreach (Upgrade u in eActiveUpgrades)
         {
-            for (int i = 0; i < upgradeStack[u]; i++)
+            for (int i = 0; i < eUpgradeStack[u]; i++)
             {
                 ApplyThisUpgrade(u);
             }
         }
 
-        eDisp.text = UpgradesToText(eActiveUpgrades);
+        eDisp.text = UpgradesToText(eUpgradeStack, eActiveUpgrades);
 
         //UpdateUI();
     }
-    public string UpgradesToText(List<Upgrade> list)
+    public string UpgradesToText(IDictionary<Upgrade, int> d, List<Upgrade> list)
     {
         string result = "";
         foreach (Upgrade u in list)
         {
-
-            result += upgradeStack[u] + " " + u.shorthandKey + "\n";
+            result += d[u] + " " + u.shorthandKey + "\n";
         }
+
         result.Replace("P", "P  -  ");
         result.Replace("E", "E  -  ");
         result.Replace("(Upgrade)", "");
         return result;
     }
 
-    public List<Upgrade> pUpgrades;
+    public List<Upgrade> pActiveUpgrades;
+    public IDictionary<Upgrade, int> pUpgradeStack = new Dictionary<Upgrade, int>();
+
     public void ApplyThisPlayerUpgrade(Upgrade u)
     {
-        pUpgrades.Add(u);
+        if (!pActiveUpgrades.Contains(u))
+        {
+            pActiveUpgrades.Add(u);
+            pUpgradeStack.Add(u, 1);
+        }
+        else
+        {
+            IterateInDictionary(pUpgradeStack, u);
+        }
 
         //pDisp.text = UpgradesToText(pUpgrades);
         switch (u.shorthandKey)
@@ -167,6 +178,10 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.GM.player.health++;
                 break;
         }
+
+        pDisp.text = UpgradesToText(pUpgradeStack, pActiveUpgrades);
+
+
     }
 
 

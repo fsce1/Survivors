@@ -92,7 +92,8 @@ public class GameManager : MonoBehaviour
     public void SpawnEnemyGroup()
     {
         Vector2 groupAmount = UpgradeManager.UM.eGroupAmount;
-        transform.position = Random.insideUnitCircle.normalized * Random.Range(35f, 45f);
+        Vector3 offset = Random.insideUnitCircle.normalized * Random.Range(35f, 45f);
+        transform.position = player.transform.position + offset;
         for (int j = (int)Random.Range(groupAmount.x, groupAmount.y); j > 0; j--) //for-loop on random number of enemies inside range
         {
             transform.position += new Vector3(Random.Range(-15, 15), Random.Range(-15, 15));
