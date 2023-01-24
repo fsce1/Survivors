@@ -73,7 +73,6 @@ public class PlayerController : MonoBehaviour
         switch (col.gameObject.tag)
         {
             case "Weapon":
-                Debug.Log("Collided with Weapon");
                 AddWeaponToInv(col.gameObject);
                 UpdateCurWeapon();
                 break;

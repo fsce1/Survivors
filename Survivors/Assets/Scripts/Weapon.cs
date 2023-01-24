@@ -31,15 +31,12 @@ public class Weapon : MonoBehaviour
     }
     public void StartTimer()
     {
-        Debug.Log("StartTimer");
-
         isFiring = true;
         firingTimer = StartCoroutine(BulletTimer(cooldown));
     }
 
     public void StopTimer()
     {
-        Debug.Log("StopTimer");
         isFiring = false;
         StopCoroutine(firingTimer);
         firstShot = false;
@@ -64,7 +61,6 @@ public class Weapon : MonoBehaviour
 
     void OnBulletTimer()
     {
-        Debug.Log("OnBulletTimer" + wType);
 
         switch (wType)
         {
@@ -84,7 +80,6 @@ public class Weapon : MonoBehaviour
     }
     public void SpawnBullet(float deviation)
     {
-        Debug.Log("SpawnBullet " + deviation);
 
         Transform tBullet = Instantiate(GameManager.GM.bullet, muzzlePos.position, muzzlePos.rotation).transform;
         Rigidbody2D rb = tBullet.GetComponent<Rigidbody2D>();

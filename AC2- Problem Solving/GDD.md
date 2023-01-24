@@ -3,7 +3,13 @@
 
 enemy kill count is the same as currency, trading souls like DS
 buy upgrades with souls
-
+buy large items with kills late-game
+and you can sort those large items into custom classes
+like your own characters in ror2
+and they are abilities
+like "dash"
+but you can make your own characters basically
+and a ScrollManager that is responsible for spawning loot
 
 
 Upgrade Examples:
@@ -55,7 +61,8 @@ every 1 minute you get to decide (like a vampire survivor level-up) what part of
 # Game Mechanics 
 
 # Health 
-
+My initial idea is to have an integer-based health system, where you deal 1 damage and enemies deal 1 damage by default. When upgrades are applied, they are simple iterations (adding one to the current number) to the stat.
+This makes it simple to see these stats, as the number of upgrades is equal to the stat (damage, maxHealth, etc.).
 # Interactive Objects
 Scattered throughout the level, there are player upgrades. These cost kills to pick up (starting at 10 and increasing by 5 each time), and make your character more powerful. 
 Different weapons are also pickups in the map, though they don't cost any money to acquire. they will be placed further out from the spawn point depending on the quality of the weapon (you start with a pistol, then shotgun, then machine gun, etc.)

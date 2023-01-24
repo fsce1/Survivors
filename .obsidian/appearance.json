@@ -1,12 +1,12 @@
 {
-  "accentColor": "#000000",
+  "accentColor": "",
   "theme": "obsidian",
   "interfaceFontFamily": "",
-  "baseFontSize": 16,
+  "baseFontSize": 17,
   "nativeMenus": false,
   "translucency": false,
   "showViewHeader": true,
-  "cssTheme": "Obsidian Nord",
+  "cssTheme": "Win98",
   "enabledCssSnippets": [
     "S - Checkboxes"
   ]

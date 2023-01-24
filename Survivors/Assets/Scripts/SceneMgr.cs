@@ -13,6 +13,7 @@ public class SceneMgr : MonoBehaviour
     public void LoadScene1()
     {
         SceneManager.LoadScene("Scene1");
+
     }
     public void QuitGame()
     {

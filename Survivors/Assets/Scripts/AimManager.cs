@@ -56,6 +56,10 @@ public class AimManager : MonoBehaviour
         float minDist = Mathf.Infinity;
         foreach (GameObject g in GameManager.GM.enemies)
         {
+            if (g == null)
+            {
+                continue;
+            }
             //if (!GetComponent<Renderer>().isVisible) continue; //this causes slowdown (i think)
             Transform t = g.transform;
             float dist = Vector3.Distance(tPlayer.position, t.position);

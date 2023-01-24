@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
 
     Rigidbody2D rb;
     public TMP_Text rend;
-    public int health = 4;
+    public int health = 1;
     public float typeMoveSpeed;
 
     public EnemyType type = EnemyType.Melee;
@@ -31,11 +31,11 @@ public class EnemyController : MonoBehaviour
             case EnemyType.Melee:
                 rend.color = Color.red;
                 //moveSpeed = 0.25f;
-                typeMoveSpeed = 1.25f;
+                typeMoveSpeed = 2.5f;
                 break;
             case EnemyType.Ranger:
                 rend.color = Color.cyan;
-                typeMoveSpeed = 0.5f;
+                typeMoveSpeed = 1;
 
                 StartCoroutine(RangerTimer(CustomMath.GetRandom(timeBetweenShots)));
 

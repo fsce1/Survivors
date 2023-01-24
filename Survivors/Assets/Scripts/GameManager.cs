@@ -68,8 +68,26 @@ public class GameManager : MonoBehaviour
     public void OnRoundTimer()
     {
         UpgradeManager.UM.DisplayEnemyUpgrades();
+        UpgradeManager.UM.GenerateRandomPowerups();
+        CullEnemies();
         StartCoroutine(RoundTimer(roundTimeLimit));
         //increment difficulty up
+    }
+    public float despawnDist;
+    public void CullEnemies()
+    {
+        List<EnemyController> toKill = new List<EnemyController>();
+        foreach (GameObject e in enemies)
+        {
+            if (Vector2.Distance(player.transform.position, e.transform.position) > despawnDist)
+            {
+                toKill.Add(e.GetComponent<EnemyController>());
+            }
+        }
+        foreach(EnemyController e in toKill)
+        {
+            e.Die();
+        }
     }
     public IEnumerator EnemyTimer(int time)
     {

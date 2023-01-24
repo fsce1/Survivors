@@ -67,7 +67,7 @@ public class UpgradeManager : MonoBehaviour
     public float eMultMuzzleVelocity = 1;
     public float eMultMoveSpeed = 1;
     public Vector2 eFiringSpeed = new Vector2(2, 4);
-    public int eMaxHealth = 3;
+    public int eMaxHealth = 2;
     public Vector2 eGroupAmount = new Vector2(5, 15);
     public int eDmg = 1;
 
@@ -151,7 +151,7 @@ public class UpgradeManager : MonoBehaviour
         result.Replace("(Upgrade)", "");
         return result;
     }
-
+    public List<Upgrade> pMasterUpgrades;
     public List<Upgrade> pActiveUpgrades;
     public IDictionary<Upgrade, int> pUpgradeStack = new Dictionary<Upgrade, int>();
 
@@ -166,7 +166,6 @@ public class UpgradeManager : MonoBehaviour
         {
             IterateInDictionary(pUpgradeStack, u);
         }
-
         //pDisp.text = UpgradesToText(pUpgrades);
         switch (u.shorthandKey)
         {
@@ -180,9 +179,11 @@ public class UpgradeManager : MonoBehaviour
         }
 
         pDisp.text = UpgradesToText(pUpgradeStack, pActiveUpgrades);
-
+    }
+    
+    public void GenerateRandomPowerups()
+    {
 
     }
-
 
 }
