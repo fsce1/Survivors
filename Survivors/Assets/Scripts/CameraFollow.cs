@@ -19,7 +19,7 @@ public class CameraFollow : MonoBehaviour
 
 
 
-
+        if (GameManager.GM.roundStarted) blockUpdate = false;
         if (blockUpdate) return;
 
         if (isAutoscroll)

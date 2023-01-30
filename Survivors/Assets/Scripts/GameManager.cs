@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
         else GM = this;
     }
     #endregion
-
+    public int level = 1;
     public bool roundStarted = false;
     public PlayerController player;
     public GameObject enemyPrefab;
@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
 
         player.health = UpgradeManager.UM.maxHealth;
         roundStarted = true;
+
     }
 
     public IEnumerator RoundTimer(int time)
@@ -71,6 +72,8 @@ public class GameManager : MonoBehaviour
         UpgradeManager.UM.GenerateRandomPowerups();
         CullEnemies();
         StartCoroutine(RoundTimer(roundTimeLimit));
+        ScrollManager.SM.RecieveRoundTimer();
+        level++;
         //increment difficulty up
     }
     public float despawnDist;
@@ -93,7 +96,6 @@ public class GameManager : MonoBehaviour
     {
         while (time > 0){
             time -= 1;
-            tEnemyTimer.text = time.ToString();
             yield return new WaitForSeconds(1);
         }
         OnSpawnTimer();

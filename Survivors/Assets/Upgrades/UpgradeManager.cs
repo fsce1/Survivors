@@ -151,7 +151,6 @@ public class UpgradeManager : MonoBehaviour
         result.Replace("(Upgrade)", "");
         return result;
     }
-    public List<Upgrade> pMasterUpgrades;
     public List<Upgrade> pActiveUpgrades;
     public IDictionary<Upgrade, int> pUpgradeStack = new Dictionary<Upgrade, int>();
 

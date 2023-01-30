@@ -11,7 +11,7 @@ public static class CustomMath
     }
     public static int GetRandomInt(Vector2 bounds)
     {
-        return Mathf.FloorToInt(Random.Range(bounds.x, bounds.y)); ;
+        return Mathf.RoundToInt(Random.Range(bounds.x-0.5f, bounds.y+0.5f)); ;
     }
     public static string SecondsToTimer(int time)
     {

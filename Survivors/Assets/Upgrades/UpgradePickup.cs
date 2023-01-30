@@ -10,11 +10,13 @@ public class UpgradePickup : MonoBehaviour
 
     public TMP_Text upgradeText;
     public TMP_Text costText;
+    public TMP_Text descText;
 
     public void Start()
     {
         upgradeText.text = upgrade.shorthandKey.ToString();
         costText.text = cost.ToString();
+        descText.text = upgrade.description.ToString();
     }
     public void OnCollisionEnter2D(Collision2D col)
     {

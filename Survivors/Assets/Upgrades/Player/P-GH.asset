@@ -15,3 +15,6 @@ MonoBehaviour:
   isEnemy: 0
   shorthandKey: P-GH
   upgrade: Goat Hoof
+  description: moveSpeed *1.1
+  levelToAppearAt: 1
+  cost: {x: 5, y: 15}

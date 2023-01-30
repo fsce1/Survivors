@@ -26,4 +26,6 @@ public class Upgrade : ScriptableObject
     public string shorthandKey;
     public string upgrade;
     public string description;
+    public int levelToAppearAt;
+    public Vector2 cost;
 }

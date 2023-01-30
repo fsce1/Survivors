@@ -16,3 +16,5 @@ MonoBehaviour:
   shorthandKey: P-CH
   upgrade: Container of Hearts
   description: Max Health + 1; Current Health + 1
+  levelToAppearAt: 1
+  cost: {x: 5, y: 15}
