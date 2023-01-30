@@ -4,5 +4,6 @@
   "promptDelete": false,
   "alwaysUpdateLinks": true,
   "showUnsupportedFiles": true,
-  "spellcheck": true
+  "spellcheck": true,
+  "attachmentFolderPath": "Survivors"
 }

@@ -5,11 +5,9 @@ enemy kill count is the same as currency, trading souls like DS
 buy upgrades with souls
 buy large items with kills late-game
 and you can sort those large items into custom classes
-like your own characters in ror2
-and they are abilities
-like "dash"
-but you can make your own characters basically
-and a ScrollManager that is responsible for spawning loot
+like your own characters in ror2, and they are abilities like dash
+You can make your own character setups as these abilities are permanently unlocked
+ScrollManager that is responsible for spawning loot
 
 
 Upgrade Examples:
@@ -70,3 +68,4 @@ Different weapons are also pickups in the map, though they don't cost any money 
 The level design should be kept simple, as complications could occur with enemy pathfinding it could get frustrating for players to be trapped in an area, unable to dodge bullets or enemies. The bullets/enemies "become" the environment that the player has to traverse through
 # Art Style 
 I think a simple art-style would work for this game, so I chose an ASCII-based text style. This could be mixed with some post-processing effects such as Chromatic Aberration and Lens Distortion to give the game a "CRT Monitor" effect, like you are playing on an old computer/arcade game.
+The program playscii is a simple ascii art editor, which is free on itch.io. It allows you to create ASCII art, and save it as png or 
